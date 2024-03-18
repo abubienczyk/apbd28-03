@@ -9,6 +9,8 @@
 
     <ItemGroup>
       <Compile Remove="Exceptions\IHazardNotifier.cs" />
+      <Compile Remove="Containers\PossibleTemperaturs.cs" />
+      <Compile Remove="Main.cs" />
     </ItemGroup>
 
 </Project>

@@ -1,3 +1,4 @@
+using cwiczenia3.Exceptions;
 using cwiczenia3.Interfaces;
 
 namespace cwiczenia3.Containers;
@@ -6,23 +7,43 @@ public class LiquidContainer : Container, IHazardNotifier
 {
     public string LiquidType { get; set; }
 
-    public LiquidContainer(double cargoWeight, double height, double containerWeight, double depth, int serialNumber, double maxWeight, string liquidType) : base(cargoWeight, height, containerWeight, depth, serialNumber, maxWeight)
+    public LiquidContainer(double cargoWeight, double height, double containerWeight, double depth, double maxWeight, string liquidType) : base(cargoWeight, height, containerWeight, depth, maxWeight)
     {
         LiquidType = liquidType;
+        Letter = 'L';
+        SerialNumber = "KON-"+Letter+"-"+Number;
     }
 
     public override void Load(double cargoWeight)
     {
-        base.Load(cargoWeight);
-        if (LiquidType.Equals("paliwo"))
+        if (LiquidType.Equals("niebezpieczny"))
         {
-           // base.CargoWeight;
+            double half = MaxWeight / 2;
+            double toFill = half - CargoWeight;
+            if (cargoWeight > toFill) throw new DangerousAcctionException();
+            CargoWeight += cargoWeight;
+            
         }
-        throw new NotImplementedException();
+        else
+        {
+            double almostFull = MaxWeight *0.9;
+            double toFill = almostFull - CargoWeight;
+            if (cargoWeight > toFill) throw new DangerousAcctionException();
+            CargoWeight += cargoWeight;
+        }
+        //base.Load(cargoWeight);
+        //throw new NotImplementedException();
     }
+    
 
     public void sendNote()
     {
-        throw new NotImplementedException();
+        Console.WriteLine("kontener  o nazwie : "+ Number +" zawiera niebezpieczny ładunek ");
+        //throw new NotImplementedException();
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + " przewożony ładunke "+LiquidType;
     }
 }
